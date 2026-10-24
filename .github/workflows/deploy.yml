@@ -35,7 +35,6 @@ jobs:
         run: npm run audit:prod
       - name: Upload the checked build for deployment
         if: >-
-          vars.ENABLE_PAGES_DEPLOY == 'true' &&
           github.ref == 'refs/heads/main' &&
           (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-pages-artifact@v3
@@ -44,7 +43,6 @@ jobs:
 
   deploy:
     if: >-
-      vars.ENABLE_PAGES_DEPLOY == 'true' &&
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: checks

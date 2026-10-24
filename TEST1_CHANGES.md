@@ -41,12 +41,12 @@ dependency chain. npm also reports them in the production dependency graph becau
 peer dependencies; they are not ignored or suppressed. Both audit commands report them.
 A Tailwind 4 styling migration is intentionally deferred to avoid unrelated visual changes.
 
-## Publishing remains disabled
+## Publishing enabled for test1
 
-No Pages settings are enabled automatically. After owner approval, configure GitHub Pages
-to use GitHub Actions and set the repository variable ENABLE_PAGES_DEPLOY to true.
-A private repository may require a GitHub plan that supports Pages for private repositories.
-Then push to main or run the Portfolio checks and deployment workflow from main.
+The owner approved making only test1 public and publishing this test portfolio.
+GitHub Pages uses GitHub Actions. Pushes to main and manual runs from main publish only
+after the full checks pass; pull requests and other branches do not publish.
+No secrets or repository deployment variable are required.
 The build base is /test1/ locally; CI derives it from the current repository name.
 
 The original README and older deployment instructions describe EF, not the isolated test setup.
