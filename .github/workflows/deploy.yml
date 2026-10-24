@@ -1,0 +1,65 @@
+name: Portfolio checks and deployment
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Review builds never receive deployment permissions.
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: checks-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    env:
+      VITE_BASE_PATH: /${{ github.event.repository.name }}/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Use the pinned npm version
+        run: npm install --global npm@11.9.0
+      - name: Clean dependency installation
+        run: npm ci --no-fund
+      - name: Lint, validate content, test, build, and check published files
+        run: npm run check
+      - name: Check production dependency advisories
+        run: npm run audit:prod
+      - name: Upload the checked build for deployment
+        if: >-
+          vars.ENABLE_PAGES_DEPLOY == 'true' &&
+          github.ref == 'refs/heads/main' &&
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: >-
+      vars.ENABLE_PAGES_DEPLOY == 'true' &&
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    # A PR cannot cancel a deployment. Finish publishing before starting another.
+    concurrency:
+      group: pages-${{ github.repository }}
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the checked artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
