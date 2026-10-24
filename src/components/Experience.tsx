@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useRenderDate } from '../lib/clock';
 
 interface ExperienceProps {
+  intro: string;
   experiences: Array<{
     position: string;
     company: string;
@@ -10,13 +12,14 @@ interface ExperienceProps {
   }>;
 }
 
-const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
+const Experience: React.FC<ExperienceProps> = ({ experiences, intro }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const currentDate = useRenderDate();
 
   // Helper to parse decimal years from duration string (e.g., "06.2024 - Present")
   const getDecimalYear = (dateStr: string) => {
     if (dateStr.toLowerCase().includes('present')) {
-      const now = new Date();
+      const now = currentDate;
       return now.getFullYear() + now.getMonth() / 12;
     }
     
@@ -37,7 +40,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
     return { start, end };
   };
 
-  const totalRange = { start: 2003, end: new Date().getFullYear() + new Date().getMonth() / 12 };
+  const totalRange = { start: 2003, end: currentDate.getFullYear() + currentDate.getMonth() / 12 };
   const totalDuration = totalRange.end - totalRange.start;
 
   // Function to get a shorter company name for the tabs
@@ -63,7 +66,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
               Professional Experience
             </h2>
             <p className="text-muted-foreground mt-6 text-lg max-w-2xl mx-auto">
-              Over two decades of leadership in infrastructure development across North America and Europe
+              {intro}
             </p>
           </div>
 
@@ -76,9 +79,10 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                 <button
                   key={`${exp.company}-${idx}`}
                   onClick={() => setActiveTab(idx)}
+                  aria-pressed={activeTab === idx}
                   className={`
                     flex-1 min-[600px]:flex-none px-5 py-3 text-sm font-mono whitespace-nowrap text-left 
-                    transition-all duration-[250ms] ease-in-out outline-none
+                    transition-all duration-200 ease-in-out outline-none
                     ${activeTab === idx 
                       ? 'text-primary bg-primary/5 min-[600px]:border-l-2 min-[600px]:-ml-[2px] border-primary font-bold' 
                       : 'text-muted-foreground hover:bg-muted hover:text-primary border-transparent'
@@ -161,7 +165,9 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                 const width = ((end - start) / totalDuration) * 100;
                 
                 return (
-                  <div
+                  <button
+                    type="button"
+                    aria-label={`Show ${exp.company} experience`}
                     key={idx}
                     onClick={() => setActiveTab(idx)}
                     className={`
@@ -194,7 +200,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                   />
                 ))}
              </div>
-             <span className="text-[10px] font-mono text-muted-foreground">{new Date().getFullYear()}</span>
+             <span className="text-[10px] font-mono text-muted-foreground">{currentDate.getFullYear()}</span>
           </div>
         </div>
       </div>

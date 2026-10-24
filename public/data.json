@@ -17,7 +17,9 @@
       "linkedin": "https://www.linkedin.com/in/eduardo-fernandez-ortiz/"
     },
     "summary": "I lead multibillion-dollar infrastructure megaprojects across North America and Europe, specializing in complex alternative delivery models. With a unique blend of commercial acumen, technical rigor, and legal insight, I consistently optimize project outcomes, cultivate stakeholder trust, and expand market share for leading construction enterprises",
-    "about_description": "I am a seasoned executive with over two decades of global leadership, spearheading multibillion-dollar infrastructure megaprojects across North America and Europe. My expertise lies in orchestrating complex alternative delivery models—including DB, P3, CMAR, and PDB—to drive unparalleled project outcomes, optimize commercial strategy, and cultivate enduring stakeholder trust.\n\nMy track record isn't just about delivery; it's about transforming project performance. I consistently reduce costs, enhance operational excellence, and build high-performing, resilient teams that thrive under pressure. With a multidisciplinary background in civil engineering, business, and law, I possess a unique ability to translate intricate technical and legal complexities into clear strategic pathways, empowering bold team leadership and deep client confidence.\n\nI am singularly focused on expanding market share and delivering sustainable growth for forward-thinking construction enterprises, turning complex infrastructure challenges into strategic opportunities. If you're exploring ways to strengthen delivery performance or structure high-value infrastructure deals, let's connect."
+    "about_description": "I am a seasoned executive with over two decades of global leadership, spearheading multibillion-dollar infrastructure megaprojects across North America and Europe. My expertise lies in orchestrating complex alternative delivery models—including DB, P3, CMAR, and PDB—to drive unparalleled project outcomes, optimize commercial strategy, and cultivate enduring stakeholder trust.\n\nMy track record isn't just about delivery; it's about transforming project performance. I consistently reduce costs, enhance operational excellence, and build high-performing, resilient teams that thrive under pressure. With a multidisciplinary background in civil engineering, business, and law, I possess a unique ability to translate intricate technical and legal complexities into clear strategic pathways, empowering bold team leadership and deep client confidence.\n\nI am singularly focused on expanding market share and delivering sustainable growth for forward-thinking construction enterprises, turning complex infrastructure challenges into strategic opportunities. If you're exploring ways to strengthen delivery performance or structure high-value infrastructure deals, let's connect.",
+    "profile_image": "profile.jpg",
+    "cv_summary": "Over 20 years of international experience delivering major transportation and civil infrastructure programs across North America and Europe. Civil engineering, business, and legal training applied to project delivery, commercial management, and business development."
   },
   "core_competencies": [
     "Strategic Planning & Execution",
@@ -48,7 +50,9 @@
         "Develop strategic partnerships and joint venture opportunities.",
         "Evaluate delivery methods, commercial risks, and project fit.",
         "Coordinate U.S. and Canadian teams on market engagement and proposal development."
-      ]
+      ],
+      "start_date": "2026-09",
+      "end_date": null
     },
     {
       "position": "Project Director",
@@ -61,7 +65,9 @@
         "Supporting delivery of the $1B+ Long Bridge North PDB Project and $2.7B Susquehanna River Rail Bridge CMAR Project, two critical Northeast Corridor infrastructure investments.",
         "Serving as a key interface with Amtrak, VPRA, VRE, FRA, and CSX, bridging technical, commercial, and stakeholder considerations.",
         "Collaborating across internal disciplines (design, procurement, controls, field) to support efficient and compliant execution."
-      ]
+      ],
+      "start_date": "2024-06",
+      "end_date": "2026-06"
     },
     {
       "position": "Senior Project Manager",
@@ -74,7 +80,9 @@
         "Strengthened proposal quality through technical input, commercial review, and stakeholder alignment strategies.",
         "Facilitated agency and stakeholder meetings to ensure transparency, responsiveness, and client trust.",
         "Collaborated across engineering, legal, and commercial teams to build compelling value propositions for owners."
-      ]
+      ],
+      "start_date": "2023-06",
+      "end_date": "2024-06"
     },
     {
       "position": "Project Manager",
@@ -87,7 +95,9 @@
         "Drove project success through effective team coordination, early works planning, and strategic partnerships.",
         "Implemented project management best practices to improve efficiency, scope alignment, and team performance.",
         "Built and maintained strong relationships with public owners, consultants, and community stakeholders, ensuring alignment across delivery partners."
-      ]
+      ],
+      "start_date": "2022-02",
+      "end_date": "2023-06"
     },
     {
       "position": "Technical Manager",
@@ -100,7 +110,9 @@
         "Oversaw/designed and processed over 300 design change modifications, improving constructability, safety, and cost-effectiveness.",
         "Led the project Construction Technical Office, supporting the U.S. management team with design coordination and field implementation strategy.",
         "Acted as a key liaison with JV partners to ensure contract compliance and effective execution under the DB model."
-      ]
+      ],
+      "start_date": "2017-10",
+      "end_date": "2022-02"
     },
     {
       "position": "Senior Project Manager",
@@ -112,7 +124,9 @@
         "Managed technical oversight and commercial strategy for the $400M I-69 Section 5 P3 Project, covering a 21-mile interstate segment.",
         "Coordinated design-build execution, project controls, and procurement to ensure alignment with contractual obligations and performance goals.",
         "Supported owner engagement and risk management processes across project phases."
-      ]
+      ],
+      "start_date": "2014-08",
+      "end_date": "2017-10"
     },
     {
       "position": "Technical Director",
@@ -124,7 +138,9 @@
         "Oversaw the design of large-scale infrastructure projects featuring over 14 km of tunnels and 5 km of bridges on high-speed rail and highways",
         "Expanded the company's scope to include bridge projects, improving design rates by 20%",
         "Mentored, coached, and trained over 20 new engineers"
-      ]
+      ],
+      "start_date": "2010-06",
+      "end_date": "2014-08"
     },
     {
       "position": "Senior Project Manager",
@@ -135,7 +151,9 @@
         "Directed construction projects including design improvement, budgeting, planning, subcontracting, procurement, quality control, safety compliance, and environmental management",
         "Managed the construction of the High-Speed Rail from Legutiano to Escoriatza project, a joint venture with a budget of €60M",
         "Oversaw the Gernika Sewer improvements project with a budget of €11M"
-      ]
+      ],
+      "start_date": "2008-11",
+      "end_date": "2010-06"
     },
     {
       "position": "Project Manager",
@@ -145,7 +163,9 @@
       "responsibilities": [
         "Managed the construction of the High-Speed Rail Cornellà del Terri to Vilademuls project, with an €80M budget, involving tunnels and pre-stressed concrete bridges",
         "Oversaw design improvement, budgeting, planning, subcontracting, procurement, quality control, safety compliance, and environmental management"
-      ]
+      ],
+      "start_date": "2005-09",
+      "end_date": "2008-11"
     },
     {
       "position": "Construction Supervision Manager",
@@ -155,7 +175,9 @@
       "responsibilities": [
         "Supervised the construction of the Urumea highway from Martutene to Astigarraga project, a 6 km highway project with a budget of €67M",
         "Managed supervision for the 8 km Toll Road AP1 from Eibar to Bergara with a budget of €79M"
-      ]
+      ],
+      "start_date": "2003-01",
+      "end_date": "2005-09"
     }
   ],
   "education": [
@@ -248,7 +270,17 @@
       "timeframe": "2025 - Present",
       "contract_type": "PDB",
       "sector": "rail",
-      "region": "usa"
+      "region": "usa",
+      "start_date": "2025",
+      "end_date": null,
+      "value_millions": 1000,
+      "currency": "USD",
+      "map": {
+        "latitude": 38.87,
+        "longitude": -77.04,
+        "label": "Washington, DC",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Susquehanna River Bridge CMAR Project",
@@ -262,7 +294,17 @@
       "timeframe": "Jun 2024 - Present",
       "contract_type": "CMAR",
       "sector": "rail",
-      "region": "usa"
+      "region": "usa",
+      "start_date": "2024-06",
+      "end_date": null,
+      "value_millions": 2700,
+      "currency": "USD",
+      "map": {
+        "latitude": 39.72,
+        "longitude": -76.08,
+        "label": "Susquehanna River, Maryland",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "SR-400 Express Lanes P3 Project",
@@ -276,7 +318,17 @@
       "timeframe": "Jun 2023 - Jun 2024",
       "contract_type": "P3",
       "sector": "highway",
-      "region": "usa"
+      "region": "usa",
+      "start_date": "2023-06",
+      "end_date": "2024-06",
+      "value_millions": 4600,
+      "currency": "USD",
+      "map": {
+        "latitude": 33.97,
+        "longitude": -84.36,
+        "label": "Atlanta, GA",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "I-10 Calcasieu River Bridge P3 Project",
@@ -290,7 +342,17 @@
       "timeframe": "Jun 2023 - Jun 2024",
       "contract_type": "P3",
       "sector": "highway",
-      "region": "usa"
+      "region": "usa",
+      "start_date": "2023-06",
+      "end_date": "2024-06",
+      "value_millions": 2300,
+      "currency": "USD",
+      "map": {
+        "latitude": 30.226,
+        "longitude": -93.217,
+        "label": "Lake Charles, LA",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "TXDOT Grand Parkway Segments H, I-1, and I-2 DB Project",
@@ -304,7 +366,17 @@
       "timeframe": "Oct 2017 - Feb 2022",
       "contract_type": "DB",
       "sector": "highway",
-      "region": "usa"
+      "region": "usa",
+      "start_date": "2017-10",
+      "end_date": "2022-02",
+      "value_millions": 950,
+      "currency": "USD",
+      "map": {
+        "latitude": 29.76,
+        "longitude": -95.369,
+        "label": "Houston, TX",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "INDOT I-69 Section 5 P3 Project",
@@ -318,7 +390,17 @@
       "timeframe": "Aug 2014 - Oct 2017",
       "contract_type": "P3",
       "sector": "highway",
-      "region": "usa"
+      "region": "usa",
+      "start_date": "2014-08",
+      "end_date": "2017-10",
+      "value_millions": 400,
+      "currency": "USD",
+      "map": {
+        "latitude": 39.165,
+        "longitude": -86.526,
+        "label": "Bloomington, IN",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Tramway Corridor Ayacucho Avenue",
@@ -332,7 +414,17 @@
       "achievement": "Implementation of cut & cover construction methodology",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "south-america"
+      "region": "south-america",
+      "start_date": "2013-04",
+      "end_date": "2014-08",
+      "value_millions": 320,
+      "currency": "USD",
+      "map": {
+        "latitude": 6.244,
+        "longitude": -75.563,
+        "label": "Medellín",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "High Speed Rail Zizurkil to Andoain",
@@ -346,7 +438,17 @@
       "achievement": "Design of 5km tunnel using NATM methodology",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2012-05",
+      "end_date": "2014-08",
+      "value_millions": 193.5,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.23,
+        "longitude": -2.02,
+        "label": "Zizurkil · Andoain",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "High Speed Rail Nudo de Venta de Baños",
@@ -360,7 +462,17 @@
       "achievement": "Delivered major pre-stressed concrete bridge structures, contributed to high-speed rail network expansion, and implemented advanced concrete construction techniques",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2010-04",
+      "end_date": "2014-08",
+      "value_millions": 83,
+      "currency": "EUR",
+      "map": {
+        "latitude": 41.99,
+        "longitude": -4.5,
+        "label": "Venta de Baños",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "High Speed Rail Andoain to Urnieta",
@@ -374,7 +486,17 @@
       "achievement": "Constructed complex bridge structures, implemented NATM tunneling technology, and integrated multiple construction methodologies",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2011-04",
+      "end_date": "2014-08",
+      "value_millions": 80,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.25,
+        "longitude": -2.01,
+        "label": "Andoain · Urnieta",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "High Speed Rail Cabezón de Pisuerga to San Martín de Valvení",
@@ -387,7 +509,17 @@
       "achievement": "Successfully completed tunnel construction, installed prefabricated bridges, and developed high-speed rail corridors",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2010-04",
+      "end_date": "2012-05",
+      "value_millions": 76,
+      "currency": "EUR",
+      "map": {
+        "latitude": 41.78,
+        "longitude": -4.63,
+        "label": "Cabezón de Pisuerga",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "High-Speed Rail Legutiano to Escoriatza",
@@ -398,7 +530,17 @@
       "timeframe": "Nov 2008 - Jun 2010",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2008-11",
+      "end_date": "2010-06",
+      "value_millions": 60,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.04,
+        "longitude": -2.52,
+        "label": "Legutiano · Escoriatza",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Gernika Water Pipeline Construction",
@@ -411,7 +553,17 @@
       "achievement": "Successfully completed pipe jacking operations, enhanced water infrastructure systems, and applied trenchless construction methodologies",
       "contract_type": "DBB",
       "sector": "other",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2008-11",
+      "end_date": "2009-06",
+      "value_millions": 11,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.31,
+        "longitude": -2.68,
+        "label": "Gernika",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "High-Speed Rail Cornellà del Terri to Vilademuls",
@@ -422,7 +574,17 @@
       "timeframe": "Sep 2005 - Nov 2008",
       "contract_type": "DBB",
       "sector": "rail",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2005-09",
+      "end_date": "2008-11",
+      "value_millions": 80,
+      "currency": "EUR",
+      "map": {
+        "latitude": 42.12,
+        "longitude": 2.82,
+        "label": "Vilademuls",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Urban Road BI-625 Section IV Project",
@@ -435,7 +597,17 @@
       "achievement": "Transformed urban road infrastructure, managed environmental remediation and contaminated materials, and relocated and installed utility infrastructure",
       "contract_type": "DBB",
       "sector": "highway",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2007-06",
+      "end_date": "2007-11",
+      "value_millions": 25,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.23,
+        "longitude": -2.87,
+        "label": "BI-625 Corridor",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Toll Road Intersection R-3/M-50",
@@ -448,7 +620,17 @@
       "achievement": "Constructed complex highway intersections, installed multiple prefabricated bridges, and managed traffic during construction",
       "contract_type": "DBB",
       "sector": "highway",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2005-08",
+      "end_date": "2007-06",
+      "value_millions": 25,
+      "currency": "EUR",
+      "map": {
+        "latitude": 40.35,
+        "longitude": -3.52,
+        "label": "Madrid",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Toll Road AP1 Eibar to Bergara",
@@ -460,7 +642,17 @@
       "timeframe": "Jan 2003 - Sep 2005",
       "contract_type": "DBB",
       "sector": "highway",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2003-01",
+      "end_date": "2005-09",
+      "value_millions": 79,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.18,
+        "longitude": -2.41,
+        "label": "Eibar · Bergara",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Urumea Highway Martutene to Astigarraga",
@@ -471,7 +663,17 @@
       "timeframe": "Jan 2003 - Sep 2005",
       "contract_type": "DBB",
       "sector": "highway",
-      "region": "europe"
+      "region": "europe",
+      "start_date": "2003-01",
+      "end_date": "2005-09",
+      "value_millions": 67,
+      "currency": "EUR",
+      "map": {
+        "latitude": 43.29,
+        "longitude": -1.95,
+        "label": "Martutene · Astigarraga",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "East Harbour Transit Hub Alliance",
@@ -485,7 +687,17 @@
       "timeframe": "2022 - 2023",
       "contract_type": "Alliance",
       "sector": "rail",
-      "region": "canada"
+      "region": "canada",
+      "start_date": "2022",
+      "end_date": "2023",
+      "value_millions": 500,
+      "currency": "CAD",
+      "map": {
+        "latitude": 43.653,
+        "longitude": -79.338,
+        "label": "East Harbour, Toronto",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Scarborough Subway Extension SRS PDB",
@@ -499,7 +711,17 @@
       "timeframe": "2022 - 2022",
       "contract_type": "PDB",
       "sector": "rail",
-      "region": "canada"
+      "region": "canada",
+      "start_date": "2022",
+      "end_date": "2022",
+      "value_millions": 5700,
+      "currency": "CAD",
+      "map": {
+        "latitude": 43.744,
+        "longitude": -79.257,
+        "label": "Scarborough, Toronto",
+        "accuracy": "approximate"
+      }
     },
     {
       "name": "Ontario Line Elevated Guideway and Stations PDB",
@@ -513,7 +735,17 @@
       "timeframe": "2023 - 2023",
       "contract_type": "PDB",
       "sector": "rail",
-      "region": "canada"
+      "region": "canada",
+      "start_date": "2023",
+      "end_date": "2023",
+      "value_millions": 1500,
+      "currency": "CAD",
+      "map": {
+        "latitude": 43.689,
+        "longitude": -79.324,
+        "label": "Ontario Line Corridor, Toronto",
+        "accuracy": "approximate"
+      }
     }
   ],
   "key_achievements": [
@@ -567,5 +799,182 @@
     "Organizational Change Leadership",
     "Innovation & Continuous Improvement Culture",
     "Executive Communication & Influence"
-  ]
+  ],
+  "site_content": {
+    "navigation": [
+      {
+        "id": "hero",
+        "label": "Home"
+      },
+      {
+        "id": "snapshot",
+        "label": "Snapshot"
+      },
+      {
+        "id": "about",
+        "label": "About"
+      },
+      {
+        "id": "experience",
+        "label": "Experience"
+      },
+      {
+        "id": "competencies",
+        "label": "Expertise"
+      },
+      {
+        "id": "projects",
+        "label": "Projects"
+      },
+      {
+        "id": "education",
+        "label": "Education"
+      },
+      {
+        "id": "contact",
+        "label": "Contact"
+      }
+    ],
+    "about_heading": "Infrastructure Delivery | Commercial Strategy | Team Leadership",
+    "experience_intro": "Over two decades of leadership in infrastructure development across North America and Europe",
+    "education_intro": "Two decades of deliberate, cross-disciplinary learning — from civil engineering to business law, underpinned by active professional licensure across three countries.",
+    "competencies_intro": "A rare combination of executive leadership, deep engineering knowledge, and digital fluency — applied to the world's most complex infrastructure programs.",
+    "projects_intro": "Multibillion-dollar infrastructure projects spanning rail, highway, and bridge construction across North America, Europe, and South America",
+    "snapshot_intro": "A data-driven view of infrastructure delivery scale, sector depth, and contract exposure.",
+    "contact_intro": "Discuss infrastructure opportunities, project delivery, and potential collaboration.",
+    "competency_cards": [
+      {
+        "label": "Strategic Planning & Execution",
+        "description": "Directing multi-year programs from capture through closeout across multiple geographies and jurisdictions.",
+        "icon": "FiTarget",
+        "pillar": "leadership"
+      },
+      {
+        "label": "Cross-Functional Team Leadership",
+        "description": "Building and guiding high-performing, multidisciplinary teams that thrive under the pressure of megaproject delivery.",
+        "icon": "RiTeamFill",
+        "pillar": "leadership"
+      },
+      {
+        "label": "Stakeholder Engagement & Communication",
+        "description": "Bridging technical, legal, and commercial interests across owners, JV partners, regulatory agencies, and communities.",
+        "icon": "FaRegHandshake",
+        "pillar": "leadership"
+      },
+      {
+        "label": "Contract Negotiation & Management",
+        "description": "Structuring and administering complex contracts across DB, P3, CMAR, and PDB frameworks to protect value and manage exposure.",
+        "icon": "LiaFileContractSolid",
+        "pillar": "leadership"
+      },
+      {
+        "label": "Commercial Management",
+        "description": "Driving revenue, margin, and market share in competitive infrastructure markets through strategic positioning and pursuit leadership.",
+        "icon": "FaSuitcase",
+        "pillar": "leadership"
+      },
+      {
+        "label": "Mentorship & Team Development",
+        "description": "Cultivating leadership pipelines, resilient organizational cultures, and high-retention teams across international programs.",
+        "icon": "GiTeamIdea",
+        "pillar": "leadership"
+      },
+      {
+        "label": "Project & Program Management",
+        "description": "Overseeing scope, schedule, cost, and quality on billion-dollar infrastructure programs with complex multi-stakeholder interfaces.",
+        "icon": "GoProject",
+        "pillar": "engineering"
+      },
+      {
+        "label": "Cost Optimization & Value Engineering",
+        "description": "Identifying savings and efficiencies at every project phase without compromising technical integrity or delivery timelines.",
+        "icon": "RiMoneyDollarCircleLine",
+        "pillar": "engineering"
+      },
+      {
+        "label": "Risk Assessment & Mitigation",
+        "description": "Anticipating, quantifying, and neutralizing project risk before it translates into schedule delay or cost overrun.",
+        "icon": "AiOutlineThunderbolt",
+        "pillar": "engineering"
+      },
+      {
+        "label": "Civil Engineering",
+        "description": "Deep technical foundation in structural design, geotechnical analysis, and large-scale infrastructure construction.",
+        "icon": "MdOutlineEngineering",
+        "pillar": "engineering"
+      },
+      {
+        "label": "Big Data Analytics & AI Applications",
+        "description": "Applying advanced analytics and AI tools to program controls, performance forecasting, and operational decision-making.",
+        "icon": "FaDatabase",
+        "pillar": "digital"
+      },
+      {
+        "label": "Cloud Computing Architectures (AWS & Azure)",
+        "description": "Leveraging cloud platforms to modernize project delivery workflows, data pipelines, and cross-team collaboration.",
+        "icon": "FaCloud",
+        "pillar": "digital"
+      },
+      {
+        "label": "Innovation & Continuous Improvement",
+        "description": "Embedding a culture of process improvement and emerging technology adoption across project teams and enterprise operations.",
+        "icon": "FaRegLightbulb",
+        "pillar": "digital"
+      }
+    ],
+    "competency_pillars": [
+      {
+        "key": "leadership",
+        "label": "Leadership & Commercial",
+        "description": "Executive presence, stakeholder trust, and commercial strategy that win work and drive enterprise growth."
+      },
+      {
+        "key": "engineering",
+        "label": "Engineering & Delivery",
+        "description": "Technical rigor and program management discipline applied to the most complex infrastructure programs in North America and Europe."
+      },
+      {
+        "key": "digital",
+        "label": "Digital & Innovation",
+        "description": "Data, cloud, and AI capabilities that modernize how infrastructure is planned, controlled, and delivered."
+      }
+    ],
+    "credential_badges": [
+      {
+        "abbr": "PE",
+        "label": "Professional Engineer"
+      },
+      {
+        "abbr": "P.Eng",
+        "label": "Professional Engineer (Canada)"
+      },
+      {
+        "abbr": "PMP",
+        "label": "Project Management Professional"
+      },
+      {
+        "abbr": "MSCE",
+        "label": "Master of Science in Civil Engineering"
+      },
+      {
+        "abbr": "MBA",
+        "label": "Executive MBA"
+      },
+      {
+        "abbr": "LLB",
+        "label": "Bachelor of Law"
+      }
+    ]
+  },
+  "metrics_assumptions": {
+    "conversion_rates": {
+      "USD": 1,
+      "CAD": 0.7272,
+      "EUR": 1.1626
+    },
+    "reference_date": null,
+    "basis": "Illustrative fixed exchange rates retained from the previous portfolio. The original reference date was not recorded. These are not live or historical project-date valuations.",
+    "value_scope": "Combined full values of the listed projects, including pursuits. Not company revenue, personally managed budget, or attributable contract value.",
+    "project_years_basis": "Legacy calendar-year coverage estimate: calendar buckets from floor(start year) through ceil(end year), inclusive, with overlaps counted once per sector. Partial years may round upward. This is not elapsed working time. Existing figures are retained at the owner's request."
+  }
 }

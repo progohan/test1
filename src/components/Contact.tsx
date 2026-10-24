@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { FileDown } from 'lucide-react';
+import { useRenderDate } from '../lib/clock';
 
 interface ContactProps {
+  intro: string;
   data: {
     full_name: string;
     current_title: string;
@@ -14,7 +16,8 @@ interface ContactProps {
   };
 }
 
-const Contact: React.FC<ContactProps> = ({ data }) => {
+const Contact: React.FC<ContactProps> = ({ data, intro }) => {
+  const currentDate = useRenderDate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +31,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
     const subject = `Business Inquiry from ${formData.name}${formData.company ? ` - ${formData.company}` : ''}`;
     const body = `Name: ${formData.name}\nEmail: ${formData.email}\n${formData.company ? `Company: ${formData.company}\n` : ''}\nMessage:\n${formData.message}`;
     const mailtoLink = `mailto:${data.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.open(mailtoLink);
+    window.location.href = mailtoLink;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -48,7 +51,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
               Contact Eduardo
             </h2>
             <p className="text-muted-foreground mt-6 text-lg max-w-3xl mx-auto">
-              Ready to discuss your next infrastructure project or executive opportunity? Let's connect and explore how my expertise can drive your organization's success.
+              {intro}
             </p>
           </div>
 
@@ -68,7 +71,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
                   >
                     <div className="absolute top-0 right-0 p-2">
                       <div className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">
-                        Available
+                        PDF
                       </div>
                     </div>
                     <div className="flex items-center">
@@ -130,9 +133,9 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
 
             {/* Contact Form */}
             <div className="bg-background p-8 rounded-xl border border-border shadow-lg">
-              <h3 className="text-2xl font-semibold text-foreground mb-6">Send a Message</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-6">Open an Email Draft</h3>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="email-draft-form space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-muted-foreground mb-2">
@@ -201,12 +204,12 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
                   type="submit"
                   className="w-full px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  Send Message
+                  Open email draft
                 </button>
               </form>
 
               <div className="mt-6 text-center text-muted-foreground text-sm">
-                <p>Form submissions open your default email client</p>
+                <p>This opens a draft in your email application. Review and send it there.</p>
               </div>
             </div>
           </div>
@@ -218,7 +221,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto text-center">
             <p className="text-muted-foreground text-sm">
-              © 2025 {data.full_name}. All rights reserved. | {data.current_title}
+              © {currentDate.getFullYear()} {data.full_name}. All rights reserved. | {data.current_title}
             </p>
           </div>
         </div>

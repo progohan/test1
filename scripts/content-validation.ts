@@ -25,8 +25,16 @@ export function validatePortfolio(input: unknown) {
     const start = parseWorkDate(dates[0]!);
     const end = dates[1] === 'Present' ? Infinity : parseWorkDate(dates[1]!);
     if (end < start) throw new Error(`End precedes start: ${job.company}`);
+    const structuredStart = Number(job.start_date.slice(0, 4)) * 12 + Number(job.start_date.slice(5));
+    const structuredEnd = job.end_date === null ? Infinity : Number(job.end_date.slice(0, 4)) * 12 + Number(job.end_date.slice(5));
+    if (structuredStart !== start || structuredEnd !== end) throw new Error(`Structured and displayed job dates differ: ${job.company}`);
   }
   const names = data.key_projects.map(project => project.name);
   if (new Set(names).size !== names.length) throw new Error('Project names must be unique.');
+  for (const project of data.key_projects) {
+    const match = project.value.replace(/,/g, '').match(/([\d.]+)\s*([MB])?/i);
+    const displayedValue = match ? Number(match[1]) * (match[2]?.toUpperCase() === 'B' ? 1000 : 1) : NaN;
+    if (displayedValue !== project.value_millions) throw new Error(`Structured and displayed project values differ: ${project.name}`);
+  }
   return data;
 }

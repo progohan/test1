@@ -1,133 +1,51 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
+import PortfolioSnapshot from './components/PortfolioSnapshot';
+import Experience from './components/Experience';
+import CoreCompetencies from './components/CoreCompetencies';
+import KeyProjects from './components/KeyProjects';
+import Education from './components/Education';
+import Contact from './components/Contact';
 import { ResumeData, ResumeDataSchema } from './types';
-import { AlertCircle } from 'lucide-react';
 
-const PortfolioSnapshot = lazy(() => import('./components/PortfolioSnapshot'));
-const Experience = lazy(() => import('./components/Experience'));
-const CoreCompetencies = lazy(() => import('./components/CoreCompetencies'));
-const KeyProjects = lazy(() => import('./components/KeyProjects'));
-const Education = lazy(() => import('./components/Education'));
-const Contact = lazy(() => import('./components/Contact'));
-
-const SectionLoader = () => (
-  <div className="py-12 text-center text-muted-foreground">Loading section...</div>
-);
-
-function App() {
-  const [resumeData, setResumeData] = useState<ResumeData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
+export default function App({ initialData }: { initialData?: ResumeData }) {
+  const [data, setData] = useState<ResumeData | null>(initialData ?? null);
+  const [loading, setLoading] = useState(!initialData);
+  const [error, setError] = useState(false);
   useEffect(() => {
+    if (initialData) return;
     const controller = new AbortController();
-
-    const fetchData = async () => {
+    const load = async () => {
       try {
         const response = await fetch('./data.json', { signal: controller.signal });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
-        const jsonData = await response.json();
-
-        const validatedData = ResumeDataSchema.parse(jsonData);
-        setResumeData(validatedData);
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
-          return;
-        }
-        console.error('Error loading resume data:', err);
-        setError(err instanceof Error ? err.message : 'An unknown error occurred while loading data.');
-      } finally {
-        setLoading(false);
-      }
+        if (!response.ok) throw new Error(`Portfolio request failed: ${response.status}`);
+        setData(ResumeDataSchema.parse(await response.json()));
+      } catch (cause) {
+        if (cause instanceof Error && cause.name === 'AbortError') return;
+        console.error('Portfolio could not be loaded.', cause);
+        setError(true);
+      } finally { if (!controller.signal.aborted) setLoading(false); }
     };
-
-    fetchData();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-xl font-medium">Loading portfolio...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !resumeData) {
-    return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-destructive/10 border border-destructive/20 rounded-xl p-8 text-center">
-          <div className="flex justify-center mb-4">
-            <AlertCircle className="text-destructive w-12 h-12" />
-          </div>
-          <h2 className="text-2xl font-bold mb-2">Error Loading Data</h2>
-          <p className="text-muted-foreground mb-6">
-            {error || 'Unable to load portfolio data. Please try again later.'}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Header />
-      <main>
-        <Hero data={resumeData.personal_info} />
-
-        <Suspense fallback={<SectionLoader />}>
-          <PortfolioSnapshot data={resumeData} />
-        </Suspense>
-
-        <About data={resumeData.personal_info} achievements={resumeData.key_achievements} />
-
-        <Suspense fallback={<SectionLoader />}>
-          <Experience experiences={resumeData.work_experience} />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <CoreCompetencies
-            competencies={resumeData.core_competencies}
-            technicalExpertise={resumeData.technical_expertise}
-            leadershipSkills={resumeData.leadership_skills}
-          />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <KeyProjects projects={resumeData.key_projects} />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <Education
-            education={resumeData.education}
-            programs={resumeData.postgraduate_programs}
-            certifications={resumeData.professional_certifications}
-          />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <Contact data={resumeData.personal_info} />
-        </Suspense>
-      </main>
-    </div>
-  );
+    void load();
+    return () => controller.abort();
+  }, [initialData]);
+  if (loading) return <div role="status" className="min-h-screen flex items-center justify-center">Loading portfolio...</div>;
+  if (error || !data) return <main className="min-h-screen flex flex-col gap-4 items-center justify-center p-6" role="alert"><h1>Error Loading Data</h1><p>The portfolio could not be loaded. Please reload the page.</p><button onClick={() => window.location.reload()} className="px-6 py-3 rounded bg-primary text-primary-foreground">Retry</button></main>;
+  const content = data.site_content;
+  return <div className="min-h-screen bg-background text-foreground">
+    <Header name={data.personal_info.full_name} links={content.navigation} />
+    <main id="main-content" tabIndex={-1}>
+      <Hero data={data.personal_info} />
+      <PortfolioSnapshot data={data} />
+      <About data={data.personal_info} achievements={data.key_achievements} heading={content.about_heading} image={`${import.meta.env.BASE_URL}${data.personal_info.profile_image}`} />
+      <Experience experiences={data.work_experience} intro={content.experience_intro} />
+      <CoreCompetencies content={content} technicalExpertise={data.technical_expertise} leadershipSkills={data.leadership_skills} />
+      <KeyProjects projects={data.key_projects} intro={content.projects_intro} />
+      <Education education={data.education} programs={data.postgraduate_programs} certifications={data.professional_certifications} intro={content.education_intro} badges={content.credential_badges} />
+      <Contact data={data.personal_info} intro={content.contact_intro} />
+    </main>
+  </div>;
 }
-
-export default App;

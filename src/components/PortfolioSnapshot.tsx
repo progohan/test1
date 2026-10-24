@@ -1,34 +1,23 @@
-import React, { useMemo } from 'react';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import React, { Suspense, lazy, useMemo } from 'react';
+import DeferredContent from './DeferredContent';
+import { formatProjectValue } from '../lib/format';
+const PortfolioCharts = lazy(() => import('./PortfolioCharts'));
+
 import { BriefcaseBusiness, DollarSign, GitBranch, MapPinned, Route, TrainFront } from 'lucide-react';
 import { ResumeData } from '../types';
 import { buildPortfolioMetrics, formatYears } from '../lib/portfolioMetrics';
+import { useRenderDate } from '../lib/clock';
 
 interface PortfolioSnapshotProps {
   data: ResumeData;
 }
 
-const chartColors = ['#0057a8', '#168aad', '#6a994e', '#f59e0b', '#7c3aed', '#64748b'];
 
-const formatProjectValue = (valueMillions: number | null | undefined) => {
-  if (!valueMillions) return 'N/A';
-  if (valueMillions >= 1000) return `$${(valueMillions / 1000).toFixed(1).replace(/\.0$/, '')}B`;
-  return `$${Math.round(valueMillions)}M`;
-};
 
 const PortfolioSnapshot: React.FC<PortfolioSnapshotProps> = ({ data }) => {
-  const metrics = useMemo(() => buildPortfolioMetrics(data), [data]);
+  const currentDate = useRenderDate();
+  const at = currentDate.toISOString();
+  const metrics = useMemo(() => buildPortfolioMetrics(data, new Date(at)), [data, at]);
 
   const headlineStats = [
     {
@@ -46,13 +35,13 @@ const PortfolioSnapshot: React.FC<PortfolioSnapshotProps> = ({ data }) => {
     {
       label: 'Rail Portfolio',
       value: metrics.railProjects.toString(),
-      detail: `${metrics.railYears} active project years`,
+      detail: `${metrics.railYears} estimated calendar years`,
       icon: TrainFront,
     },
     {
       label: 'Highway & Bridges',
       value: metrics.highwayProjects.toString(),
-      detail: `${metrics.highwayYears} active project years`,
+      detail: `${metrics.highwayYears} estimated calendar years`,
       icon: GitBranch,
     },
     {
@@ -78,7 +67,7 @@ const PortfolioSnapshot: React.FC<PortfolioSnapshotProps> = ({ data }) => {
               Portfolio Snapshot
             </h2>
             <p className="text-muted-foreground mt-6 text-lg max-w-3xl mx-auto">
-              A data-driven view of infrastructure delivery scale, sector depth, and contract exposure.
+              {data.site_content.snapshot_intro}
             </p>
           </div>
 
@@ -102,63 +91,17 @@ const PortfolioSnapshot: React.FC<PortfolioSnapshotProps> = ({ data }) => {
             })}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="bg-background border border-border rounded-lg p-5 shadow-sm lg:col-span-1">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Projects by Contract</h3>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={metrics.contractChart}
-                      dataKey="count"
-                      nameKey="name"
-                      innerRadius={58}
-                      outerRadius={92}
-                      paddingAngle={3}
-                    >
-                      {metrics.contractChart.map((entry, index) => (
-                        <Cell key={entry.key} fill={chartColors[index % chartColors.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {metrics.contractChart.map((item, index) => (
-                  <div key={item.key} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ backgroundColor: chartColors[index % chartColors.length] }}
-                    />
-                    <span>{item.name}: {item.count}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-background border border-border rounded-lg p-5 shadow-sm lg:col-span-2">
-              <h3 className="text-lg font-semibold text-foreground mb-1">Portfolio Value by Category</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                USD-equivalent value across listed key projects, with total portfolio shown for context.
-              </p>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={metrics.sectorChart} margin={{ top: 8, right: 12, left: 0, bottom: 24 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} interval={0} />
-                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatProjectValue(Number(value))} />
-                    <Tooltip formatter={(value) => [formatProjectValue(Number(value)), 'USD-equivalent value']} />
-                    <Bar dataKey="valueMillions" radius={[6, 6, 0, 0]}>
-                      {metrics.sectorChart.map((entry, index) => (
-                        <Cell key={entry.key} fill={chartColors[index % chartColors.length]} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
+          <DeferredContent fallback={<p className="text-muted-foreground text-center">Interactive charts load as this section approaches the screen.</p>}>
+            <Suspense fallback={<p role="status">Loading charts...</p>}><PortfolioCharts metrics={metrics} /></Suspense>
+          </DeferredContent>
+          <details className="mt-8 border border-border rounded-lg p-4">
+            <summary className="cursor-pointer font-semibold">View chart data and calculation notes</summary>
+            <table className="w-full text-sm mt-4"><caption className="sr-only">Illustrative full project values in USD millions</caption><thead><tr><th scope="col" className="text-left">Category</th><th scope="col" className="text-right">USD millions</th></tr></thead><tbody>{metrics.sectorChart.map(row => <tr key={row.key}><th scope="row" className="text-left font-normal py-1">{row.name}</th><td className="text-right">{row.valueMillions.toLocaleString('en-US')}</td></tr>)}</tbody></table>
+            <p className="mt-4 text-sm text-muted-foreground">{data.metrics_assumptions.value_scope}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{data.metrics_assumptions.basis}</p>
+            <p className="mt-2 text-sm text-muted-foreground">Fixed conversion factors: CAD to USD {data.metrics_assumptions.conversion_rates.CAD}; EUR to USD {data.metrics_assumptions.conversion_rates.EUR}. Reference date: {data.metrics_assumptions.reference_date ?? 'not recorded'}.</p>
+            <p className="mt-2 text-sm text-muted-foreground">{data.metrics_assumptions.project_years_basis}</p>
+          </details>
         </div>
       </div>
     </section>

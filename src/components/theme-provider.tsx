@@ -15,7 +15,11 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    () => {
+      if (typeof window === "undefined") return defaultTheme;
+      try { const saved = localStorage.getItem(storageKey); return saved === "dark" || saved === "light" || saved === "system" ? saved : defaultTheme; }
+      catch { return defaultTheme; }
+    }
   )
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export function ThemeProvider({
   const value = {
     theme,
     setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
+      try { localStorage.setItem(storageKey, theme) } catch { /* Storage can be unavailable in private browsers. */ }
       setTheme(theme)
     },
   }

@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+section[id], main[id] { scroll-margin-top: 6rem; }
+.skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 100; padding: .75rem 1rem; background: #fff; color: #003f85; border-radius: .25rem; }
+.skip-link:focus { top: .75rem; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

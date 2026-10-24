@@ -1,0 +1,10 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+const source = readFileSync('public/data.json');
+const data = JSON.parse(source);
+const manifest = JSON.parse(readFileSync('public/cv-source.json', 'utf8'));
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+if (manifest.source_sha256 !== digest(source)) throw new Error('The CV is stale. Run python scripts/generate_cv.py after editing portfolio data.');
+if (manifest.pdf_sha256 !== digest(readFileSync(`public/${data.personal_info.cv_url}`))) throw new Error('CV file and source record do not match.');
+if (manifest.current_company !== data.work_experience[0].company) throw new Error('CV employer does not match portfolio.');
+console.log(`CV and portfolio source match: ${manifest.current_company}, ${manifest.current_title}.`);

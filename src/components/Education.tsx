@@ -7,6 +7,8 @@ import { TbBuildingBridge } from 'react-icons/tb';
 import { MdLocationOn } from 'react-icons/md';
 
 interface EducationProps {
+  intro: string;
+  badges: Array<{ abbr: string; label: string }>;
   education: Array<{
     degree: string;
     institution: string;
@@ -28,16 +30,6 @@ interface EducationProps {
   }>;
 }
 
-// Credential badges shown at the top — derived from the most prominent qualifications
-const CREDENTIAL_BADGES = [
-  { abbr: 'PE', label: 'Professional Engineer' },
-  { abbr: 'P.Eng', label: 'Professional Engineer (Canada)' },
-  { abbr: 'PMP', label: 'Project Management Professional' },
-  { abbr: 'MSCE', label: 'Master of Science in Civil Engineering' },
-  { abbr: 'MBA', label: 'Executive MBA' },
-  { abbr: 'LLB', label: 'Bachelor of Law' },
-];
-
 const getDegreeIcon = (text: string): JSX.Element => {
   const t = text.toLowerCase();
   if (t.includes('law')) return <FaGavel />;
@@ -51,7 +43,7 @@ const getDegreeIcon = (text: string): JSX.Element => {
   return <MdOutlineSchool />;
 };
 
-const Education: React.FC<EducationProps> = ({ education, programs, certifications }) => {
+const Education: React.FC<EducationProps> = ({ education, programs, certifications, intro, badges }) => {
   // Merge academic + postgraduate into one timeline, sorted oldest → newest
   const allAcademic = [
     ...education.map(e => ({
@@ -83,13 +75,13 @@ const Education: React.FC<EducationProps> = ({ education, programs, certificatio
               Education & Certifications
             </h2>
             <p className="text-muted-foreground mt-6 text-lg max-w-3xl mx-auto">
-              Two decades of deliberate, cross-disciplinary learning — from civil engineering to business law, underpinned by active professional licensure across three countries.
+              {intro}
             </p>
           </div>
 
           {/* Credential Badge Strip */}
           <div className="flex flex-wrap justify-center gap-3 mb-14">
-            {CREDENTIAL_BADGES.map((badge) => (
+            {badges.map((badge) => (
               <div
                 key={badge.abbr}
                 className="group relative px-5 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-bold shadow-sm cursor-default"

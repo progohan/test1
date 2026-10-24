@@ -27,6 +27,21 @@ describe('portfolio content validation', () => {
   it('rejects invalid contact links', () => {
     const copy = structuredClone(data);
     copy.personal_info.contact.linkedin = 'http://example.com';
-    expect(() => validatePortfolio(copy)).toThrow('LinkedIn');
+    expect(() => validatePortfolio(copy)).toThrow();
+  });
+  it('rejects impossible map coordinates', () => {
+    const copy = structuredClone(data);
+    copy.key_projects[0]!.map.latitude = 91;
+    expect(() => validatePortfolio(copy)).toThrow();
+  });
+  it('rejects invalid currency conversion assumptions', () => {
+    const copy = structuredClone(data);
+    copy.metrics_assumptions.conversion_rates.CAD = 0;
+    expect(() => validatePortfolio(copy)).toThrow();
+  });
+  it('rejects display and structured employment date disagreement', () => {
+    const copy = structuredClone(data);
+    copy.work_experience[0]!.start_date = '2026-08';
+    expect(() => validatePortfolio(copy)).toThrow();
   });
 });

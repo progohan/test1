@@ -1,35 +1,11 @@
-import React from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 
-const serializeError = (error: any) => {
-  if (error instanceof Error) {
-    return error.message + '\n' + error.stack;
-  }
-  return JSON.stringify(error, null, 2);
-};
-
-export class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean; error: any }
-> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error: any) {
-    return { hasError: true, error };
-  }
-
+export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch(error: Error, info: ErrorInfo) { console.error('Portfolio rendering failed.', error, info); }
   render() {
-    if (this.state.hasError) {
-      return (
-        <div className="p-4 border border-red-500 rounded">
-          <h2 className="text-red-500">Something went wrong.</h2>
-          <pre className="mt-2 text-sm">{serializeError(this.state.error)}</pre>
-        </div>
-      );
-    }
-
+    if (this.state.failed) return <main role="alert" className="min-h-screen flex flex-col items-center justify-center gap-4 p-8"><h1 className="text-2xl font-semibold">The portfolio could not be displayed.</h1><p>Please reload the page to try again.</p><button className="px-6 py-3 bg-primary text-primary-foreground rounded" onClick={() => window.location.reload()}>Reload portfolio</button></main>;
     return this.props.children;
   }
 }

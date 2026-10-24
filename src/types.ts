@@ -1,137 +1,71 @@
 import { z } from 'zod';
 
-export interface ResumeData {
-  personal_info: {
-    full_name: string;
-    credentials: string[];
-    current_title: string;
-    location: string;
-    cv_url?: string;
-    contact: {
-      email: string;
-      linkedin: string;
-    };
-    summary: string;
-    about_description: string;
-  };
-  core_competencies: string[];
-  work_experience: Array<{
-    position: string;
-    company: string;
-    location: string;
-    duration: string;
-    responsibilities: string[];
-  }>;
-  education: Array<{
-    degree: string;
-    institution: string;
-    year: string;
-    status?: string;
-  }>;
-  postgraduate_programs: Array<{
-    program: string;
-    institution: string;
-    year: string;
-  }>;
-  professional_certifications: Array<{
-    certification: string;
-    jurisdictions?: string[];
-    jurisdiction?: string;
-    country?: string;
-    issuing_organization?: string;
-    organization?: string;
-  }>;
-  key_projects: Array<{
-    name: string;
-    value: string;
-    role: string;
-    company: string;
-    location?: string;
-    client?: string;
-    contribution?: string;
-    achievement?: string;
-    scope?: string;
-    timeframe?: string;
-    contract_type?: ContractType;
-    sector?: ProjectSector;
-    region?: ProjectRegion;
-  }>;
-  key_achievements: string[];
-  technical_expertise: {
-    delivery_models: string[];
-    project_types: string[];
-    technical_skills: string[];
-    technology_skills: string[];
-  };
-  leadership_skills: string[];
-}
+const text = z.string().min(1);
+const monthDate = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/);
+const projectDate = z.string().regex(/^\d{4}(-(0[1-9]|1[0-2]))?$/);
+const contract = z.enum(['P3', 'PDB', 'DB', 'DBB', 'CMAR', 'Alliance', 'Other']);
+const sector = z.enum(['rail', 'highway', 'other']);
+const region = z.enum(['usa', 'canada', 'europe', 'south-america', 'other']);
+const pillar = z.enum(['leadership', 'engineering', 'digital']);
 
-export type ContractType = 'P3' | 'PDB' | 'DB' | 'DBB' | 'CMAR' | 'Alliance' | 'Other';
-export type ProjectSector = 'rail' | 'highway' | 'other';
-export type ProjectRegion = 'usa' | 'canada' | 'europe' | 'south-america' | 'other';
+export type ContractType = z.infer<typeof contract>;
+export type ProjectSector = z.infer<typeof sector>;
+export type ProjectRegion = z.infer<typeof region>;
 
-export const ResumeDataSchema: z.ZodType<ResumeData> = z.object({
+export const ResumeDataSchema = z.object({
   personal_info: z.object({
-    full_name: z.string(),
-    credentials: z.array(z.string()),
-    current_title: z.string(),
-    location: z.string(),
-    cv_url: z.string().optional(),
+    full_name: text, credentials: z.array(text), current_title: text, location: text,
+    cv_url: text.optional(), profile_image: text, cv_summary: text,
     contact: z.object({
-      email: z.string(),
-      linkedin: z.string(),
+      email: z.email(),
+      linkedin: z.url().refine(value => {
+        const url = new URL(value);
+        return url.protocol === 'https:' && /(^|\.)linkedin\.com$/.test(url.hostname);
+      }, 'Use a valid HTTPS LinkedIn profile URL.'),
     }),
-    summary: z.string(),
-    about_description: z.string(),
+    summary: text, about_description: text,
   }),
-  core_competencies: z.array(z.string()),
+  core_competencies: z.array(text),
   work_experience: z.array(z.object({
-    position: z.string(),
-    company: z.string(),
-    location: z.string(),
-    duration: z.string(),
-    responsibilities: z.array(z.string()),
-  })),
-  education: z.array(z.object({
-    degree: z.string(),
-    institution: z.string(),
-    year: z.string(),
-    status: z.string().optional(),
-  })),
-  postgraduate_programs: z.array(z.object({
-    program: z.string(),
-    institution: z.string(),
-    year: z.string(),
-  })),
+    position: text, company: text, location: text, duration: text,
+    start_date: monthDate, end_date: monthDate.nullable(),
+    responsibilities: z.array(text).min(1),
+  }).refine(job => job.end_date === null || job.end_date >= job.start_date, 'Job dates must be chronological.')).min(1),
+  education: z.array(z.object({ degree: text, institution: text, year: z.string().regex(/^\d{4}$/), status: text.optional() })),
+  postgraduate_programs: z.array(z.object({ program: text, institution: text, year: z.string().regex(/^\d{4}$/) })),
   professional_certifications: z.array(z.object({
-    certification: z.string(),
-    jurisdictions: z.array(z.string()).optional(),
-    jurisdiction: z.string().optional(),
-    country: z.string().optional(),
-    issuing_organization: z.string().optional(),
-    organization: z.string().optional(),
+    certification: text, jurisdictions: z.array(text).optional(), jurisdiction: text.optional(),
+    country: text.optional(), issuing_organization: text.optional(), organization: text.optional(),
   })),
   key_projects: z.array(z.object({
-    name: z.string(),
-    value: z.string(),
-    role: z.string(),
-    company: z.string(),
-    location: z.string().optional(),
-    client: z.string().optional(),
-    contribution: z.string().optional(),
-    achievement: z.string().optional(),
-    scope: z.string().optional(),
-    timeframe: z.string().optional(),
-    contract_type: z.enum(['P3', 'PDB', 'DB', 'DBB', 'CMAR', 'Alliance', 'Other']).optional(),
-    sector: z.enum(['rail', 'highway', 'other']).optional(),
-    region: z.enum(['usa', 'canada', 'europe', 'south-america', 'other']).optional(),
+    name: text, value: text, value_millions: z.number().positive(), currency: z.enum(['USD', 'CAD', 'EUR']),
+    role: text, company: text, location: text.optional(), client: text.optional(),
+    contribution: text.optional(), achievement: text.optional(), scope: text.optional(), timeframe: text,
+    start_date: projectDate, end_date: projectDate.nullable(),
+    contract_type: contract, sector, region,
+    map: z.object({
+      latitude: z.number().min(-90).max(90), longitude: z.number().min(-180).max(180),
+      label: text, accuracy: z.literal('approximate'),
+    }),
   })),
-  key_achievements: z.array(z.string()),
+  key_achievements: z.array(text),
   technical_expertise: z.object({
-    delivery_models: z.array(z.string()),
-    project_types: z.array(z.string()),
-    technical_skills: z.array(z.string()),
-    technology_skills: z.array(z.string()),
+    delivery_models: z.array(text), project_types: z.array(text),
+    technical_skills: z.array(text), technology_skills: z.array(text),
   }),
-  leadership_skills: z.array(z.string()),
+  leadership_skills: z.array(text),
+  site_content: z.object({
+    navigation: z.array(z.object({ id: text.regex(/^[a-z][a-z0-9-]*$/), label: text })),
+    about_heading: text, experience_intro: text, education_intro: text,
+    competencies_intro: text, projects_intro: text, snapshot_intro: text, contact_intro: text,
+    competency_cards: z.array(z.object({ label: text, description: text, icon: text, pillar })),
+    competency_pillars: z.array(z.object({ key: pillar, label: text, description: text })),
+    credential_badges: z.array(z.object({ abbr: text, label: text })),
+  }),
+  metrics_assumptions: z.object({
+    conversion_rates: z.object({ USD: z.literal(1), CAD: z.number().positive(), EUR: z.number().positive() }),
+    reference_date: z.string().nullable(), basis: text, value_scope: text, project_years_basis: text,
+  }),
 });
+
+export type ResumeData = z.infer<typeof ResumeDataSchema>;

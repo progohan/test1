@@ -35,17 +35,16 @@ const REGION_LABELS: Record<RegionKey, string> = {
   other: 'Other',
 };
 
-const CAD_TO_USD = 0.7272;
-const EUR_TO_USD = 1.1626;
+type Rates = ResumeData['metrics_assumptions']['conversion_rates'];
 
 const SECTOR_KEYS: SectorKey[] = ['rail', 'highway', 'other'];
 const REGION_KEYS: RegionKey[] = ['usa', 'canada', 'europe', 'south-america', 'other'];
 
-const parseDateToken = (value: string | undefined, fallbackYear = 2003) => {
+const parseDateToken = (value: string | undefined, fallbackYear = 2003, at = new Date()) => {
   if (!value) return fallbackYear;
 
   if (/present/i.test(value)) {
-    const now = new Date();
+    const now = at;
     return now.getFullYear() + now.getMonth() / 12;
   }
 
@@ -56,12 +55,12 @@ const parseDateToken = (value: string | undefined, fallbackYear = 2003) => {
   return Number(match[2]) + Math.max(month, 0) / 12;
 };
 
-export const parseDateRange = (range: string | undefined) => {
+export const parseDateRange = (range: string | undefined, at = new Date()) => {
   if (!range) return null;
 
   const [startToken, endToken] = range.split(/\s*(?:-|–|—)\s*/);
-  const start = parseDateToken(startToken);
-  const end = endToken ? parseDateToken(endToken, start) : start;
+  const start = parseDateToken(startToken, 2003, at);
+  const end = endToken ? parseDateToken(endToken, start, at) : start;
 
   return {
     start,
@@ -135,7 +134,7 @@ export const getProjectContractType = (project: ResumeData['key_projects'][numbe
   return 'Other';
 };
 
-export const parseProjectValueMillions = (value: string) => {
+export const parseProjectValueMillions = (value: string, rates?: Rates) => {
   const normalized = value.replace(/,/g, '').trim();
   const match = normalized.match(/([$€]|eur|cad)?\s*([\d.]+)\s*([mb])?/i);
   if (!match) return null;
@@ -147,17 +146,17 @@ export const parseProjectValueMillions = (value: string) => {
   const millions = unit === 'b' ? amount * 1000 : amount;
 
   if (/\bcad\b/i.test(normalized)) {
-    return millions * CAD_TO_USD;
+    return rates ? millions * rates.CAD : null;
   }
 
   if (/€|\beur\b/i.test(normalized)) {
-    return millions * EUR_TO_USD;
+    return rates ? millions * rates.EUR : null;
   }
 
   return millions;
 };
 
-export const enrichProjects = (projects: ResumeData['key_projects']): ProjectWithMetrics[] => {
+export const enrichProjects = (projects: ResumeData['key_projects'], rates?: Rates): ProjectWithMetrics[] => {
   return projects.map((project) => {
     const sectorKey = getProjectSector(project);
     const regionKey = getProjectRegion(project);
@@ -169,20 +168,20 @@ export const enrichProjects = (projects: ResumeData['key_projects']): ProjectWit
       contractType: getProjectContractType(project),
       regionKey,
       regionLabel: REGION_LABELS[regionKey],
-      parsedValueMillions: parseProjectValueMillions(project.value),
+      parsedValueMillions: project.currency === 'USD' ? project.value_millions : rates ? project.value_millions * rates[project.currency] : null,
     };
   });
 };
 
 const roundedMillions = (value: number) => Math.round(value);
 
-const getUniqueCoveredYears = (projects: ProjectWithMetrics[], sector: SectorKey) => {
+const getUniqueCoveredYears = (projects: ProjectWithMetrics[], sector: SectorKey, at = new Date()) => {
   const years = new Set<number>();
 
   projects
     .filter((project) => project.sectorKey === sector)
     .forEach((project) => {
-      const range = parseDateRange(project.timeframe);
+      const range = parseDateRange(project.timeframe, at);
       if (!range) return;
 
       const startYear = Math.floor(range.start);
@@ -195,10 +194,10 @@ const getUniqueCoveredYears = (projects: ProjectWithMetrics[], sector: SectorKey
   return years.size;
 };
 
-export const buildPortfolioMetrics = (data: ResumeData) => {
-  const projects = enrichProjects(data.key_projects);
-  const careerStart = Math.min(...data.work_experience.map((experience) => parseDateRange(experience.duration)?.start ?? 2003));
-  const careerEnd = Math.max(...data.work_experience.map((experience) => parseDateRange(experience.duration)?.end ?? careerStart));
+export const buildPortfolioMetrics = (data: ResumeData, at = new Date()) => {
+  const projects = enrichProjects(data.key_projects, data.metrics_assumptions.conversion_rates);
+  const careerStart = Math.min(...data.work_experience.map((experience) => parseDateRange(experience.duration, at)?.start ?? 2003));
+  const careerEnd = Math.max(...data.work_experience.map((experience) => parseDateRange(experience.duration, at)?.end ?? careerStart));
   const largestProject = projects.reduce<ProjectWithMetrics | null>((largest, project) => {
     if (project.parsedValueMillions === null) return largest;
     if (!largest || (largest.parsedValueMillions ?? 0) < project.parsedValueMillions) return project;
@@ -242,8 +241,8 @@ export const buildPortfolioMetrics = (data: ResumeData) => {
     totalProjects: projects.length,
     railProjects: projects.filter((project) => project.sectorKey === 'rail').length,
     highwayProjects: projects.filter((project) => project.sectorKey === 'highway').length,
-    railYears: getUniqueCoveredYears(projects, 'rail'),
-    highwayYears: getUniqueCoveredYears(projects, 'highway'),
+    railYears: getUniqueCoveredYears(projects, 'rail', at),
+    highwayYears: getUniqueCoveredYears(projects, 'highway', at),
     largestProject,
     regions: Array.from(new Set(projects.map((project) => project.regionKey).filter((region) => region !== 'other'))),
     contractChart,

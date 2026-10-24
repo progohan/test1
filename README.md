@@ -1,144 +1,88 @@
-# Eduardo's Construction Portfolio
+# Eduardo's portfolio - test1
 
-A modern, responsive portfolio website showcasing Eduardo's professional experience and projects in the construction industry.
+This is the isolated test portfolio. It must never publish or push to progohan/EF.
+The preview uses https://progohan.github.io/test1/ and deliberately has noindex metadata
+to avoid competing with the original portfolio in search results.
 
-## Live Demo
+## Development
 
-Visit the live website: [https://progohan.github.io/EF](https://progohan.github.io/EF)
+Use Node 24.22.1 (`nvm use`) and npm 11.9.0. Then:
 
-## Features
-
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
-- **Interactive Components**: Smooth animations and user-friendly interface
-- **Professional Sections**:
-  - About & Hero section
-  - Professional Experience
-  - Key Projects showcase
-  - Core Competencies
-  - Education & Certifications
-  - Contact Information
-
-## Technologies Used
-
-- **Frontend**: React 18, TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: Radix UI primitives
-- **Build Tool**: Vite
-- **Icons**: Lucide React
-- **Deployment**: GitHub Pages
-
-## Quick Start
-
-### Prerequisites
-
-- Node.js (version 18 or higher)
-- pnpm (recommended) or npm
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/progohan/EF.git
-cd EF
-```
-
-2. Install dependencies:
-
-```bash
-pnpm install
-# or
-npm install
-```
-
-3. Start the development server:
-
-```bash
-pnpm dev
-# or
+```sh
+npm ci
 npm run dev
+npm run check
 ```
 
-4. Open your browser and visit `http://localhost:5173`
+`npm run check` runs lint, TypeScript checks, source/CV validation, component and
+regression tests, both production builds, HTML pre-rendering, and published-file checks.
+The application is hydrated from its generated HTML and embedded validated content.
+Charts load near the viewport; the project map loads only on request.
 
-## Build for Production
+## Content source
 
-```bash
-pnpm build
-# or
-npm run build
+Edit public/data.json. It owns personal details, work experience, education, credential
+badges, section introductions, competency descriptions, project dates/values, map locations,
+and calculation assumptions. src/types.ts defines the validation schema and derives
+TypeScript types from it. Components own presentation and generic interface labels.
+
+Jobs and projects include structured dates and numeric project values. Original display
+strings are retained for compatibility; validation rejects inconsistent job dates or values.
+Project map coordinates are approximate, not surveyed. Never infer a new project's location
+from a broad keyword or use an office address as a project location.
+
+Keep factual claims evidence-backed. The existing experience-year wording, rounding, and
+legacy sector-year estimates are intentionally retained at the owner's request. The UI
+and calculation notes identify sector figures as estimates, not elapsed working time.
+Fixed FX factors are illustrative, with the original reference date unknown. Portfolio
+value means full listed project values, including pursuits; it is not attributable revenue.
+
+## Update the CV
+
+After any content edit, regenerate the CV and source record:
+
+```sh
+python -m pip install -r requirements-cv.txt
+python scripts/generate_cv.py
+npm run validate:content
 ```
 
-The built files will be generated in the `dist/` directory.
+The generator requires DejaVu Sans fonts at `/usr/share/fonts/truetype/dejavu` (Debian/Ubuntu package `fonts-dejavu-core`).
+Review the generated PDF visually before committing it. The content digest blocks stale
+CV uploads. The CV now uses the same employer, dates, responsibilities, email, education,
+and certifications as the website. No private employment details are added.
 
-## Deployment
+## Publish only test1
 
-This website is automatically deployed to GitHub Pages. Any push to the `main` branch will trigger a new deployment.
+GitHub Pages is enabled with GitHub Actions. Pushes to main and manual workflow runs from
+main publish after checks pass. PRs and other branches cannot publish. Only the deployment
+job has Pages/OIDC write permissions. No secret or repository deployment variable is needed.
+Deployment concurrency is separate from review checks. Do not disable the check gates.
 
-### Manual Deployment
+VITE_BASE_PATH defaults to /test1/ locally. CI derives it from the repository name.
+The build emits initial readable HTML, metadata, a working social image, and bootstrap data;
+all core text and direct contact/CV links work without JavaScript. Interactive controls do not.
 
-To deploy manually:
+## Structure
 
-1. Build the project:
+- public/data.json: canonical content and assumptions
+- public/profile.jpg: existing unmodified portrait, used by the page and sharing previews
+- public/Eduardo_Fernandez_CV.pdf and cv-source.json: generated CV and drift guard
+- src/components: presentation and accessible interactions
+- src/components/ui: only the UI primitives actually used
+- src/lib: metrics, formatting, and a shared render clock
+- scripts: content/CV checks, CV generation, HTML pre-rendering, build smoke checks
+- tests: data, navigation, modal, lazy-loading, rendering, and calculation regressions
+- .github/workflows: quality gates, publication, and scheduled dependency audit
 
-```bash
-pnpm build
-```
+## Maintenance
 
-2. The `dist/` folder contains all the static files ready for deployment.
+Dependabot proposes changes; it does not merge them. Review each PR and its checks before
+approval. Three moderate findings in the Tailwind 3 build-tool chain are documented in
+TEST1_CHANGES.md; they are not suppressed. A Tailwind 4 migration remains a separate task.
+The contact form opens an email draft; it does not deliver messages or store visitor data.
+Error details remain in the console; visitors see a recovery action, not a stack trace.
 
-## Project Structure
-
-```text
-EF/
-|-- public/                 # Static assets
-|   |-- data.json           # Portfolio data
-|   |-- Eduardo_Fernandez_CV.pdf
-|   `-- ...
-|-- src/
-|   |-- components/         # React components
-|   |   |-- ui/             # UI components (Radix UI)
-|   |   |-- About.tsx       # About section
-|   |   |-- Contact.tsx     # Contact section
-|   |   |-- Experience.tsx  # Experience section
-|   |   `-- ...
-|   |-- hooks/              # Custom React hooks
-|   |-- lib/                # Utility functions
-|   |-- App.tsx             # Main application component
-|   `-- main.tsx            # Application entry point
-|-- dist/                   # Production build
-`-- ...
-```
-
-## Customization
-
-### Updating Portfolio Content
-
-Edit `public/data.json` to update:
-
-- Personal information
-- Professional experience
-- Projects
-- Skills and competencies
-- Education details
-
-### Styling
-
-The project uses Tailwind CSS for styling. Customize the design by:
-
-- Modifying component styles in individual `.tsx` files
-- Updating Tailwind configuration in `tailwind.config.js`
-- Adding custom CSS in `src/index.css`
-
-## Contact
-
-For any questions or suggestions regarding this portfolio, please reach out through the contact form on the website.
-
-## License
-
-This project is created for Eduardo's professional portfolio. All rights reserved.
-
----
-
-Built with React, TypeScript, and Tailwind CSS.
+Unused UI templates, hooks, old photos, and logos have been removed from this copy only.
+They remain recoverable from earlier commits. The unsafe old remote-changing deployment
+helper and superseded review documents were retired.

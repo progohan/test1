@@ -5,6 +5,7 @@ node_modules/
 
 # Production build
 dist/
+.prerender/
 coverage/
 
 # Development
@@ -49,3 +50,4 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+tmp/

@@ -3,10 +3,11 @@ import userEvent from '@testing-library/user-event';
 import { expect, it } from 'vitest';
 import Header from '../src/components/Header';
 import { ThemeProvider } from '../src/components/theme-provider';
+import data from '../public/data.json';
 
 it('opens the mobile menu, preserves anchor links, and closes it after selection', async () => {
   const user = userEvent.setup();
-  render(<ThemeProvider><Header /></ThemeProvider>);
+  render(<ThemeProvider><Header name={data.personal_info.full_name} links={data.site_content.navigation} /></ThemeProvider>);
   const toggle = screen.getByRole('button', { name: 'Toggle navigation menu' });
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await user.click(toggle);
@@ -20,8 +21,8 @@ it('opens the mobile menu, preserves anchor links, and closes it after selection
 });
 
 it('exposes links to every portfolio section', () => {
-  render(<ThemeProvider><Header /></ThemeProvider>);
+  render(<ThemeProvider><Header name={data.personal_info.full_name} links={data.site_content.navigation} /></ThemeProvider>);
   expect(screen.getAllByRole('link').map(link => link.getAttribute('href'))).toEqual([
-    '#hero', '#snapshot', '#about', '#experience', '#competencies', '#projects', '#education', '#contact',
+    '#main-content', '#hero', '#snapshot', '#about', '#experience', '#competencies', '#projects', '#education', '#contact',
   ]);
 });

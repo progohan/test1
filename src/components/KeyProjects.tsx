@@ -1,10 +1,11 @@
-import React, { Suspense, useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useRef, useState } from 'react';
 import { PiTrain } from 'react-icons/pi';
 import { GiSuspensionBridge } from 'react-icons/gi';
 import { FaRoad, FaHardHat } from 'react-icons/fa';
 import { TbBuildingTunnel } from 'react-icons/tb';
 import { MdLocationOn, MdClose } from 'react-icons/md';
 import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from './ui/dialog';
 import { ContractType, ResumeData } from '../types';
 import { enrichProjects, ProjectWithMetrics, RegionKey, SectorKey } from '../lib/portfolioMetrics';
 
@@ -13,6 +14,7 @@ const ProjectMaps = React.lazy(() => import('./ProjectMaps'));
 type Project = ResumeData['key_projects'][0];
 
 interface KeyProjectsProps {
+  intro: string;
   projects: Project[];
 }
 
@@ -78,8 +80,10 @@ const SECTOR_ORDER: SectorKey[] = ['rail', 'highway', 'other'];
 const CONTRACT_ORDER: ContractType[] = ['P3', 'PDB', 'DB', 'DBB', 'CMAR', 'Alliance', 'Other'];
 const REGION_ORDER: RegionKey[] = ['usa', 'canada', 'europe', 'south-america', 'other'];
 
-const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
+const KeyProjects: React.FC<KeyProjectsProps> = ({ projects, intro }) => {
   const [selectedProject, setSelectedProject] = useState<(ProjectWithMetrics & ProjectInfo) | null>(null);
+  const trigger = useRef<HTMLElement | null>(null);
+  const [mapVisible, setMapVisible] = useState(false);
   const [activeSector, setActiveSector] = useState<SectorFilterKey>('all');
   const [activeContract, setActiveContract] = useState<ContractFilterKey>('all');
   const [activeRegion, setActiveRegion] = useState<RegionFilterKey>('all');
@@ -140,6 +144,7 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
   const handleProjectKeyDown = (e: React.KeyboardEvent, project: ProjectWithMetrics & ProjectInfo) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
+      trigger.current = e.currentTarget as HTMLElement;
       setSelectedProject(project);
     }
   };
@@ -160,7 +165,7 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
               Key Projects
             </h2>
             <p className="text-muted-foreground mt-6 text-lg max-w-3xl mx-auto">
-              Multibillion-dollar infrastructure projects spanning rail, highway, and bridge construction across North America, Europe, and South America
+              {intro}
             </p>
           </div>
 
@@ -172,6 +177,7 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
                   key={key}
                   variant={activeSector === key ? 'default' : 'outline'}
                   onClick={() => setActiveSector(key)}
+                  aria-pressed={activeSector === key}
                   className="min-w-[130px]"
                 >
                   {sectorFilterConfig[key].label}
@@ -186,6 +192,7 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
                   key={key}
                   variant={activeContract === key ? 'default' : 'outline'}
                   onClick={() => setActiveContract(key)}
+                  aria-pressed={activeContract === key}
                   size="sm"
                 >
                   {contractFilterConfig[key].label}
@@ -200,6 +207,7 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
                   key={key}
                   variant={activeRegion === key ? 'default' : 'outline'}
                   onClick={() => setActiveRegion(key)}
+                  aria-pressed={activeRegion === key}
                   size="sm"
                 >
                   {regionFilterConfig[key].label}
@@ -208,7 +216,7 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
               ))}
             </div>
 
-            <p className="text-center text-sm text-muted-foreground">
+            <p role="status" aria-live="polite" className="text-center text-sm text-muted-foreground">
               Showing {filteredProjects.length} of {projectsWithInfo.length} projects
               {filterSummary ? ` | ${filterSummary}` : ''}
             </p>
@@ -228,9 +236,10 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
               <div
                 key={project.name}
                 className="group bg-background rounded-xl p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:border-primary/50 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
-                onClick={() => setSelectedProject(project)}
+                onClick={(event) => { trigger.current = event.currentTarget; setSelectedProject(project); }}
                 onKeyDown={(e) => handleProjectKeyDown(e, project)}
                 role="button"
+                aria-haspopup="dialog"
                 tabIndex={0}
                 aria-label={`View details for ${project.name}`}
               >
@@ -294,16 +303,17 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
       </div>
 
       {/* Project Detail Modal */}
+      <Dialog open={selectedProject !== null} onOpenChange={open => { if (!open) setSelectedProject(null); }}>
       {selectedProject && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-background rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border shadow-2xl">
-            <div className="p-8">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-background" onCloseAutoFocus={event => { event.preventDefault(); trigger.current?.focus(); }}>
+            <DialogDescription className="sr-only">Project role, scope, client, and contribution.</DialogDescription>
+            <div className="p-2">
               {/* Modal Header */}
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-start">
                   <div className="text-4xl text-primary mr-4">{selectedProject.icon}</div>
                   <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-2">{selectedProject.name}</h3>
+                    <DialogTitle className="text-2xl font-bold text-foreground mb-2">{selectedProject.name}</DialogTitle>
                     <div className="flex items-center text-muted-foreground">
                       <span className="text-3xl font-bold text-primary mr-4">
                         {selectedProject.value}
@@ -381,13 +391,13 @@ const KeyProjects: React.FC<KeyProjectsProps> = ({ projects }) => {
                 )}
               </div>
             </div>
-          </div>
-        </div>
+        </DialogContent>
       )}
-
-      <Suspense fallback={<div className="mt-20 text-center text-muted-foreground">Loading project map...</div>}>
-        <ProjectMaps projects={projects} />
-      </Suspense>
+      </Dialog>
+      <div className="container mx-auto px-4 max-w-6xl pb-4">
+        {mapVisible ? <Suspense fallback={<p role="status">Loading project map...</p>}><ProjectMaps projects={projects} /></Suspense>
+          : <div className="text-center mt-12"><h3 className="text-2xl font-semibold mb-3">Interactive Project Atlas</h3><p className="text-muted-foreground mb-4">Project locations are approximate. Load the map when needed.</p><Button onClick={() => setMapVisible(true)}>Show interactive project map</Button></div>}
+      </div>
     </section>
   );
 };

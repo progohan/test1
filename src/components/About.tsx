@@ -1,8 +1,10 @@
 
 import React from 'react';
-import profileImage from '../assets/Edu_github.jpg';
+
 
 interface AboutProps {
+  heading: string;
+  image: string;
   data: {
     full_name: string;
     current_title: string;
@@ -11,7 +13,7 @@ interface AboutProps {
   achievements: string[];
 }
 
-const About: React.FC<AboutProps> = ({ data, achievements }) => {
+const About: React.FC<AboutProps> = ({ data, achievements, heading, image }) => {
   return (
     <section id="about" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
@@ -27,7 +29,9 @@ const About: React.FC<AboutProps> = ({ data, achievements }) => {
               <div className="flex justify-center">
                 <div className="w-80 h-80 rounded-lg overflow-hidden shadow-2xl">
                   <img 
-                    src={profileImage} 
+                    src={image}
+                    width={320}
+                    height={320}
                     alt={data.full_name}
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -40,7 +44,7 @@ const About: React.FC<AboutProps> = ({ data, achievements }) => {
             {/* Right Column: Content */}
             <div className="lg:col-span-2">
               <h3 className="text-2xl font-semibold text-foreground mb-6">
-                Infrastructure Delivery | Commercial Strategy | Team Leadership
+                {heading}
               </h3>
               <div className="text-foreground/80 text-lg leading-relaxed mb-10 space-y-4">
                 {data.about_description.split('\n\n').map((paragraph, index) => (

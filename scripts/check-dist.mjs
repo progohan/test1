@@ -6,10 +6,11 @@ const html = readFileSync(resolve(dist, 'index.html'), 'utf8');
 const base = process.env['VITE_BASE_PATH'] || '/test1/';
 if (!base.startsWith('/') || !base.endsWith('/')) throw new Error('Base path must start and end with /.');
 const files = [...html.matchAll(/(?:src|href)=["']([^"']+)["']/g)]
-  .map(match => match[1]).filter(url => !/^(?:https?:|#|data:)/.test(url));
+  .map(match => match[1]).filter(url => !/^(?:[a-z][a-z0-9+.-]*:|#)/i.test(url));
 for (const url of files) {
-  if (!url.startsWith(base)) throw new Error(`Asset uses the wrong repository base: ${url}`);
-  const path = resolve(dist, decodeURIComponent(url.slice(base.length).split(/[?#]/)[0]));
+  const pathname = new URL(url, `https://portfolio.example${base}`).pathname;
+  if (!pathname.startsWith(base)) throw new Error(`Asset uses the wrong repository base: ${url}`);
+  const path = resolve(dist, decodeURIComponent(pathname.slice(base.length).split(/[?#]/)[0]));
   const rel = relative(dist, path);
   if (rel.startsWith('..') || isAbsolute(rel) || !existsSync(path)) throw new Error(`Missing build asset: ${url}`);
 }
